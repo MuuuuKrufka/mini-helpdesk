@@ -1,10 +1,18 @@
-function TicketList({lista}){
+function TicketList({lista, usun, zmienStatus}){
     const listaTicketow = lista.map(ticket => 
         // <li key={ticket.id}>
         //     {ticket.tytul} {ticket.opis}
         // </li>
-        <tr>
-            <td>{ticket.id}</td><td>{ticket.tytul}</td><td>{ticket.opis}</td><td>{ticket.kategoria}</td><td>{ticket.status}</td>
+        <tr key={ticket.id}>
+            <td>{ticket.id}</td><td>{ticket.tytul}</td><td>{ticket.opis}</td><td>{ticket.kategoria}</td>
+            <td>
+                <select value={ticket.status} onChange={(e) => zmienStatus(ticket.id, e.target.value)}>
+                    <option value="Nowy">Nowy</option>
+                    <option value="W trakcie">W trakcie</option>
+                    <option value="Zakończony">Zakończony</option>
+                </select>
+            </td>
+            <td><button onClick={() => usun(ticket.id)}>Usuń</button></td>
         </tr>
     );
 
