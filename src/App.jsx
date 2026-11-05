@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import TicketList from './components/TicketList';
 import TicketForm from './components/TicketForm';
+import TicketFilter from './components/TicketFilter';
 
 function App() {
   const [zgloszenia, setZgloszenia] = useState([
@@ -10,6 +11,9 @@ function App() {
     {"id": 4, "tytul": "Uszkodzona myszka.", "opis": "Myszka podwójnie klika.", "kategoria": "Komputer", "status": "Nowe"},
     {"id": 5, "tytul": "Drukarka nie ma papieru", "opis": "Skończył się papier.", "kategoria": "Drukarka", "status": "Nowe"}
   ]);
+
+  const [szukajOpisTytul, setSzukajOpisTytul] = useState("");
+  const [szukajStatus, setSzukajStatus] = useState("wszystkie");
 
   const usun = (id) =>{  
     if(confirm("Czy napewno chcesz usunąć zdarzenie?") == true){
@@ -43,13 +47,24 @@ function App() {
     e.target.reset();
   }
 
+  const filtrujTablica = zgloszenia.filter((item) => {
+    const tekst = szukajOpisTytul.toLowerCase();
+
+    const pasujeTytulCzyOpis = item.tytul.toLowerCase().includes(tekst) || item.opis.toLowerCase().includes(tekst);
+    const pasujeStatus = szukajStatus === "wszystkie" || item.status === szukajStatus;
+
+    return pasujeTytulCzyOpis && pasujeStatus;
+  });
+
   return (
     <>
       <h1>MINI HELPDESK</h1>
 
       <TicketForm dodajZgloszenie={dodajZgloszenie}></TicketForm>
 
-      <TicketList lista={zgloszenia} usun={usun} zmienStatus={zmienStatus}/>
+      <TicketFilter szukajOpisTytul={szukajOpisTytul} setSzukajOpisTytul={setSzukajOpisTytul} szukajStatus={szukajStatus} setSzukajStatus={setSzukajStatus}></TicketFilter>
+
+      <TicketList lista={filtrujTablica} usun={usun} zmienStatus={zmienStatus}/>
     </>
   )
 }

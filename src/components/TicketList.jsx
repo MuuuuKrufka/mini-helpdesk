@@ -7,8 +7,8 @@ function TicketList({lista, usun, zmienStatus}){
             <td>{ticket.id}</td><td>{ticket.tytul}</td><td>{ticket.opis}</td><td>{ticket.kategoria}</td>
             <td>
                 <select value={ticket.status} onChange={(e) => zmienStatus(ticket.id, e.target.value)}>
-                    <option value="Nowy">Nowy</option>
-                    <option value="W trakcie">W trakcie</option>
+                    <option value="Nowe">Nowe</option>
+                    <option value="W Trakcie">W Trakcie</option>
                     <option value="Zakończony">Zakończony</option>
                 </select>
             </td>
