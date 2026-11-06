@@ -1,120 +1,72 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
+import TicketList from './components/TicketList';
+import TicketForm from './components/TicketForm';
+import TicketFilter from './components/TicketFilter';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [zgloszenia, setZgloszenia] = useState([
+    {"id": 1, "tytul": "Problem z komputerem.", "opis": "Laptop się nie ładuje.", "kategoria": "Komputer", "status": "Nowe"},
+    {"id": 2, "tytul": "Drukarka nie działa!", "opis": "Drukarka nie chce drukować!", "kategoria": "Drukarka", "status": "Nowe"},
+    {"id": 3, "tytul": "Brak kabli.", "opis": "Zabrakło kabli.", "kategoria": "Inne", "status": "Nowe"},
+    {"id": 4, "tytul": "Uszkodzona myszka.", "opis": "Myszka podwójnie klika.", "kategoria": "Komputer", "status": "Nowe"},
+    {"id": 5, "tytul": "Drukarka nie ma papieru", "opis": "Skończył się papier.", "kategoria": "Drukarka", "status": "Nowe"}
+  ]);
+
+  const [szukajOpisTytul, setSzukajOpisTytul] = useState("");
+  const [szukajStatus, setSzukajStatus] = useState("wszystkie");
+
+  const usun = (id) =>{  
+    if(confirm("Czy napewno chcesz usunąć zdarzenie?") == true){
+      setZgloszenia((zgloszenia) => zgloszenia.filter((item) => item.id !== id));
+    }
+  }
+
+  const zmienStatus = (id, nowyStatus) =>{
+    setZgloszenia((zgloszenia) => zgloszenia.map((item) => item.id == id ? {...item, status: nowyStatus} : item));
+  }
+
+  const dodajZgloszenie = (e) =>{
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const tytul = formData.get("tytul");
+    const opis = formData.get("opis");
+    const kategoria = formData.get("kategoria");
+    let id = 1;
+    if(zgloszenia.length > 0){
+      id = zgloszenia.at(-1).id + 1;
+    }
+    
+    if(tytul.trim().length > 2 && tytul.trim().length < 81 && opis.length < 501){
+      const noweZgloszenie = {"id": id, "tytul": tytul, "opis": opis, "kategoria": kategoria, "status": "Nowe"}
+      setZgloszenia([...zgloszenia, noweZgloszenie]);
+    }else{
+      alert("Tytuł powinienn mieć od 3 do 80 znaków! A opis do maksymalnie 500!!");
+    }
+
+    e.target.reset();
+  }
+
+  const filtrujTablica = zgloszenia.filter((item) => {
+    const tekst = szukajOpisTytul.toLowerCase();
+
+    const pasujeTytulCzyOpis = item.tytul.toLowerCase().includes(tekst) || item.opis.toLowerCase().includes(tekst);
+    const pasujeStatus = szukajStatus === "wszystkie" || item.status === szukajStatus;
+
+    return pasujeTytulCzyOpis && pasujeStatus;
+  });
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      <h1>MINI HELPDESK</h1>
 
-      <div className="ticks"></div>
+      <TicketForm dodajZgloszenie={dodajZgloszenie}></TicketForm>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <TicketFilter szukajOpisTytul={szukajOpisTytul} setSzukajOpisTytul={setSzukajOpisTytul} szukajStatus={szukajStatus} setSzukajStatus={setSzukajStatus}></TicketFilter>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      <TicketList lista={filtrujTablica} usun={usun} zmienStatus={zmienStatus}/>
     </>
   )
 }
