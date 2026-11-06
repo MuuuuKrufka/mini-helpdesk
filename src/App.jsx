@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import './App.css';
 import TicketList from './components/TicketList';
 import TicketForm from './components/TicketForm';
 import TicketFilter from './components/TicketFilter';
+
 
 function App() {
   const [zgloszenia, setZgloszenia] = useState([
@@ -37,7 +39,7 @@ function App() {
       id = zgloszenia.at(-1).id + 1;
     }
     
-    if(tytul.length > 2 && tytul.length < 81 && opis.length < 501){
+    if(tytul.trim().length > 2 && tytul.trim().length < 81 && opis.length < 501){
       const noweZgloszenie = {"id": id, "tytul": tytul, "opis": opis, "kategoria": kategoria, "status": "Nowe"}
       setZgloszenia([...zgloszenia, noweZgloszenie]);
     }else{

@@ -18,12 +18,22 @@ function TicketList({lista, usun, zmienStatus}){
 
     return(
         // <ul style={{listStyle: "none"}}>{listaTicketow}</ul>
-        <table>
-            <tr>
-                <th>ID</th><th>Tytuł</th><th>Opis</th><th>Kategoria</th><th>Status</th>
-            </tr>
-            {listaTicketow}
-        </table>
+        <div className="table-wrapper">
+            {lista.length === 0 ? (
+                <p className="brak-zgloszen">Brak zgłoszeń spełniających warunki!</p>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th><th>Tytuł</th><th>Opis</th><th>Kategoria</th><th>Status</th><th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listaTicketow}
+                    </tbody>
+                </table>
+            )}
+        </div>
     );
 }
 
