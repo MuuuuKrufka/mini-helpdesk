@@ -3,6 +3,7 @@ import './App.css';
 import TicketList from './components/TicketList';
 import TicketForm from './components/TicketForm';
 import TicketFilter from './components/TicketFilter';
+import TicketEditForm from './components/TicketEditForm';
 
 
 function App() {
@@ -16,6 +17,8 @@ function App() {
 
   const [szukajOpisTytul, setSzukajOpisTytul] = useState("");
   const [szukajStatus, setSzukajStatus] = useState("wszystkie");
+  const [edytowanie, setEdytowanie] = useState(false);
+  const [edytowanieId, setEdytowanieId] = useState("");
 
   const usun = (id) =>{  
     if(confirm("Czy napewno chcesz usunąć zdarzenie?") == true){
@@ -49,6 +52,28 @@ function App() {
     e.target.reset();
   }
 
+  const edytujZgloszenie = (e) =>{
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const tytul = formData.get("tytul");
+    const opis = formData.get("opis");
+    const kategoria = formData.get("kategoria");
+
+    if(tytul.trim().length > 2 && tytul.trim().length < 81 && opis.length < 501){
+      if(confirm("Czy na pewno chcesz edytować zgłoszenie?")){
+        setZgloszenia((zgloszenia) =>
+        zgloszenia.map((item) => 
+        item.id === Number(edytowanieId) ? {
+          ...item, tytul: tytul, opis: opis, kategoria: kategoria
+        } : item))
+      }
+    } else {
+      alert("Tytuł powinienn mieć od 3 do 80 znaków! A opis do maksymalnie 500!!");
+    }
+
+  }
+
   const filtrujTablica = zgloszenia.filter((item) => {
     const tekst = szukajOpisTytul.toLowerCase();
 
@@ -62,7 +87,25 @@ function App() {
     <>
       <h1>MINI HELPDESK</h1>
 
-      <TicketForm dodajZgloszenie={dodajZgloszenie}></TicketForm>
+      <label htmlFor='edycja' className='edycja'>
+        Tryb Edycji <input type='checkbox' name='edycja' checked={edytowanie} onChange={(e) => {setEdytowanie(e.target.checked); setEdytowanieId("");}}/>
+      </label>
+
+      {edytowanie ? (
+        <>
+          <select value={edytowanieId} className='edycja-select'onChange={(e) => setEdytowanieId(e.target.value)}>
+            <option value="">Wybierz zgłoszenie do edycji</option>
+              {zgloszenia.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.id} - {item.tytul}
+                </option>
+              ))}
+          </select>
+                
+          <TicketEditForm edytujZgloszenie={edytujZgloszenie} edytowaneZgloszenie={zgloszenia.find((item) => item.id === Number(edytowanieId))}></TicketEditForm>
+        </>
+      ) : <TicketForm dodajZgloszenie={dodajZgloszenie}></TicketForm>}
+      
 
       <TicketFilter szukajOpisTytul={szukajOpisTytul} setSzukajOpisTytul={setSzukajOpisTytul} szukajStatus={szukajStatus} setSzukajStatus={setSzukajStatus}></TicketFilter>
 
