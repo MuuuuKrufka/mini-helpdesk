@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import TicketList from './components/TicketList';
 import TicketForm from './components/TicketForm';
@@ -7,13 +7,35 @@ import TicketEditForm from './components/TicketEditForm';
 
 
 function App() {
-  const [zgloszenia, setZgloszenia] = useState([
+  const przykladoweZgloszenia = [
     {"id": 1, "tytul": "Problem z komputerem.", "opis": "Laptop się nie ładuje.", "kategoria": "Komputer", "status": "Nowe"},
     {"id": 2, "tytul": "Drukarka nie działa!", "opis": "Drukarka nie chce drukować!", "kategoria": "Drukarka", "status": "Nowe"},
     {"id": 3, "tytul": "Brak kabli.", "opis": "Zabrakło kabli.", "kategoria": "Inne", "status": "Nowe"},
     {"id": 4, "tytul": "Uszkodzona myszka.", "opis": "Myszka podwójnie klika.", "kategoria": "Komputer", "status": "Nowe"},
     {"id": 5, "tytul": "Drukarka nie ma papieru", "opis": "Skończył się papier.", "kategoria": "Drukarka", "status": "Nowe"}
-  ]);
+  ];
+
+  const [zgloszenia, setZgloszenia] = useState(() => {
+    const zapisane = localStorage.getItem("zgloszenia");
+
+    return zapisane !== null ? JSON.parse(zapisane) : przykladoweZgloszenia;
+  })
+
+  const [zapisz, setZapisz] = useState(false);
+  const [reset, setReset] = useState(false);
+
+  useEffect(() => {
+    if(zapisz){
+      localStorage.setItem("zgloszenia", JSON.stringify(zgloszenia));
+    }
+  }, [zapisz]);
+
+  useEffect(() => {
+    if(reset){
+      setZgloszenia(przykladoweZgloszenia);
+      localStorage.setItem("zgloszenia", JSON.stringify(przykladoweZgloszenia));
+    }
+  }, [reset]);
 
   const [szukajOpisTytul, setSzukajOpisTytul] = useState("");
   const [szukajStatus, setSzukajStatus] = useState("wszystkie");
@@ -87,13 +109,17 @@ function App() {
     <>
       <h1>MINI HELPDESK</h1>
 
-      <label htmlFor='edycja' className='edycja'>
-        Tryb Edycji <input type='checkbox' name='edycja' checked={edytowanie} onChange={(e) => {setEdytowanie(e.target.checked); setEdytowanieId("");}}/>
-      </label>
+      <div className='menu'>
+        <label htmlFor='edycja' className='edycja'>
+          Tryb Edycji <input type='checkbox' name='edycja' checked={edytowanie} onChange={(e) => {setEdytowanie(e.target.checked); setEdytowanieId("");}}/>
+        </label>
+        <button onClick={() => setZapisz(true)}>Zapisz liste</button>
+        <button onClick={() => {if(confirm("Czy na pewno chcesz zresetować listę?")){setReset(true);}}}>Resetuj liste</button>
+      </div>
 
       {edytowanie ? (
         <>
-          <select value={edytowanieId} className='edycja-select'onChange={(e) => setEdytowanieId(e.target.value)}>
+          <select value={edytowanieId} className='edycja-select' onChange={(e) => setEdytowanieId(e.target.value)}>
             <option value="">Wybierz zgłoszenie do edycji</option>
               {zgloszenia.map((item) => (
                 <option key={item.id} value={item.id}>
