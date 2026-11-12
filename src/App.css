@@ -139,6 +139,26 @@ td button:hover {
     border-radius: 14px;
 }
 
+.liczniki{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.licznik{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.licznik h4{
+    margin: 0 0 5px;
+    color: #94a3b8;
+}
+
 @media (max-width: 600px) {
 
     body {

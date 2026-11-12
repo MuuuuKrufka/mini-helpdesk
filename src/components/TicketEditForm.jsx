@@ -28,6 +28,15 @@ function TicketEditForm({edytujZgloszenie, edytowaneZgloszenie}){
                         </select>
                     </div>
 
+                    <div className="form-field">
+                        <label>Wybierz piorytet:</label>
+                        <select name="piorytet" defaultValue={edytowaneZgloszenie.piorytet}>
+                            <option value="Niski">Niski</option>
+                            <option value="Normalny">Normalny</option>
+                            <option value="Wysoki">Wysoki</option>
+                        </select>
+                    </div>
+
                     <button type="submit">Edytuj zgłoszenie</button>
                 </div>
             </form>

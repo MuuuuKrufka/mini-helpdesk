@@ -12,6 +12,7 @@ function TicketList({lista, usun, zmienStatus}){
                     <option value="Zakończony">Zakończony</option>
                 </select>
             </td>
+            <td>{ticket.piorytet}</td>
             <td><button onClick={() => usun(ticket.id)}>Usuń</button></td>
         </tr>
     );
@@ -25,7 +26,7 @@ function TicketList({lista, usun, zmienStatus}){
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th><th>Tytuł</th><th>Opis</th><th>Kategoria</th><th>Status</th><th></th>
+                            <th>ID</th><th>Tytuł</th><th>Opis</th><th>Kategoria</th><th>Status</th><th>Piorytet</th><th></th>
                         </tr>
                     </thead>
                     <tbody>

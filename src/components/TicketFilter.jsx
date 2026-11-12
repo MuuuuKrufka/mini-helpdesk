@@ -1,4 +1,4 @@
-function TicketFilter({szukajOpisTytul, setSzukajOpisTytul, szukajStatus, setSzukajStatus}){
+function TicketFilter({szukajOpisTytul, setSzukajOpisTytul, szukajStatus, setSzukajStatus, szukajPiorytet, setSzukajPiorytet}){
     return(
         <div>
             <p className="section-title">Filtruj zgłoszenia:</p>
@@ -19,7 +19,17 @@ function TicketFilter({szukajOpisTytul, setSzukajOpisTytul, szukajStatus, setSzu
                         </select>
                     </div>
 
-                    <button type="button" onClick={() => {setSzukajOpisTytul(""); setSzukajStatus("wszystkie");}}>
+                    <div className="form-field">
+                        <label>Piorytet:</label>
+                        <select name="piorytet" value={szukajPiorytet} onChange={(e) => setSzukajPiorytet(e.target.value)}>
+                            <option value="wszystkie">Wszystkie</option>
+                            <option value="Niski">Niski</option>
+                            <option value="Normalny">Normalny</option>
+                            <option value="Wysoki">Wysoki</option>
+                        </select>
+                    </div>
+
+                    <button type="button" onClick={() => {setSzukajOpisTytul(""); setSzukajStatus("wszystkie"); setSzukajPiorytet("wszystkie");}}>
                         Wyczyść
                     </button>
                 </div>
