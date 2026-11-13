@@ -15,11 +15,34 @@ function App() {
     {"id": 5, "tytul": "Drukarka nie ma papieru", "opis": "Skończył się papier.", "kategoria": "Drukarka", "status": "Nowe", "piorytet": "Niski"}
   ];
 
+  const [blad, setBlad] = useState(false);
   const [zgloszenia, setZgloszenia] = useState(() => {
     const zapisane = localStorage.getItem("zgloszenia");
 
-    return zapisane !== null ? JSON.parse(zapisane) : przykladoweZgloszenia;
+    if(zapisane === null){
+      return przykladoweZgloszenia;
+    }
+
+    try{
+      const dane = JSON.parse(zapisane);
+      if(!Array.isArray(dane)){
+        throw new Error();
+      }
+
+      return dane;
+    } catch{
+      localStorage.removeItem("zgloszenia");
+      setBlad(true);
+      return [];
+    }
+
   })
+
+  const przywrocDane = () =>{
+    setZgloszenia(przykladoweZgloszenia);
+    localStorage.setItem("zgloszenia", JSON.stringify(przykladoweZgloszenia));
+    setBlad(false);
+  }
 
   const [zapisz, setZapisz] = useState(false);
   const [reset, setReset] = useState(false);
@@ -116,55 +139,64 @@ function App() {
 
   return (
     <>
-      <h1>MINI HELPDESK</h1>
-
-      <div className='liczniki'>
-        <div className='licznik'>
-          <h4>Wszystkie zgłoszenia:</h4>
-          <p>{wszystkieZgloszenia}</p>
+      {blad ? (
+        <div>
+          <p>Wykryto bład z danymi! Kliknij przycisk lub odswież stronę!</p>
+          <button onClick={przywrocDane}>Przywróć początkowe dane</button>
         </div>
-        <div className='licznik'>
-          <h4>Nowe zgłoszenia:</h4>
-          <p>{noweZgloszenia}</p>
-        </div>
-        <div className='licznik'>
-          <h4>Zgłoszenia w trakcie:</h4>
-          <p>{wTrakcieZgloszenia}</p>
-        </div>
-        <div className='licznik'>
-          <h4>Zakończone zgłoszenia:</h4>
-          <p>{zakonczoneZgloszenia}</p>
-        </div>
-      </div>
-
-      <div className='menu'>
-        <label htmlFor='edycja' className='edycja'>
-          Tryb Edycji <input type='checkbox' name='edycja' checked={edytowanie} onChange={(e) => {setEdytowanie(e.target.checked); setEdytowanieId("");}}/>
-        </label>
-        <button onClick={() => setZapisz(true)}>Zapisz liste</button>
-        <button onClick={() => {if(confirm("Czy na pewno chcesz zresetować listę?")){setReset(true);}}}>Resetuj liste</button>
-      </div>
-
-      {edytowanie ? (
+      ) : (
         <>
-          <select value={edytowanieId} className='edycja-select' onChange={(e) => setEdytowanieId(e.target.value)}>
-            <option value="">Wybierz zgłoszenie do edycji</option>
-              {zgloszenia.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.id} - {item.tytul}
-                </option>
-              ))}
-          </select>
-                
-          <TicketEditForm edytujZgloszenie={edytujZgloszenie} edytowaneZgloszenie={zgloszenia.find((item) => item.id === Number(edytowanieId))}></TicketEditForm>
-        </>
-      ) : <TicketForm dodajZgloszenie={dodajZgloszenie}></TicketForm>}
-      
+          <h1>MINI HELPDESK</h1>
 
-      <TicketFilter szukajOpisTytul={szukajOpisTytul} setSzukajOpisTytul={setSzukajOpisTytul} szukajStatus={szukajStatus} setSzukajStatus={setSzukajStatus}
-      szukajPiorytet={szukajPiorytet} setSzukajPiorytet={setSzukajPiorytet}></TicketFilter>
+          <div className='liczniki'>
+            <div className='licznik'>
+              <h4>Wszystkie zgłoszenia:</h4>
+              <p>{wszystkieZgloszenia}</p>
+            </div>
+            <div className='licznik'>
+              <h4>Nowe zgłoszenia:</h4>
+              <p>{noweZgloszenia}</p>
+            </div>
+            <div className='licznik'>
+              <h4>Zgłoszenia w trakcie:</h4>
+              <p>{wTrakcieZgloszenia}</p>
+            </div>
+            <div className='licznik'>
+              <h4>Zakończone zgłoszenia:</h4>
+              <p>{zakonczoneZgloszenia}</p>
+            </div>
+          </div>
 
-      <TicketList lista={filtrujTablica} usun={usun} zmienStatus={zmienStatus}/>
+          <div className='menu'>
+            <label htmlFor='edycja' className='edycja'>
+              Tryb Edycji <input type='checkbox' name='edycja' checked={edytowanie} onChange={(e) => {setEdytowanie(e.target.checked); setEdytowanieId("");}}/>
+            </label>
+            <button onClick={() => setZapisz(true)}>Zapisz liste</button>
+            <button onClick={() => {if(confirm("Czy na pewno chcesz zresetować listę?")){setReset(true);}}}>Resetuj liste</button>
+          </div>
+
+          {edytowanie ? (
+            <>
+              <select value={edytowanieId} className='edycja-select' onChange={(e) => setEdytowanieId(e.target.value)}>
+                <option value="">Wybierz zgłoszenie do edycji</option>
+                  {zgloszenia.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.id} - {item.tytul}
+                    </option>
+                  ))}
+              </select>
+                    
+              <TicketEditForm edytujZgloszenie={edytujZgloszenie} edytowaneZgloszenie={zgloszenia.find((item) => item.id === Number(edytowanieId))}></TicketEditForm>
+            </>
+          ) : <TicketForm dodajZgloszenie={dodajZgloszenie}></TicketForm>}
+          
+
+          <TicketFilter szukajOpisTytul={szukajOpisTytul} setSzukajOpisTytul={setSzukajOpisTytul} szukajStatus={szukajStatus} setSzukajStatus={setSzukajStatus}
+          szukajPiorytet={szukajPiorytet} setSzukajPiorytet={setSzukajPiorytet}></TicketFilter>
+
+          <TicketList lista={filtrujTablica} usun={usun} zmienStatus={zmienStatus}/>
+      </>
+      )}
     </>
   )
 }
