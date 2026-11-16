@@ -24,6 +24,15 @@ function TicketForm({dodajZgloszenie}){
                         </select>
                     </div>
 
+                    <div className="form-field">
+                        <label>Wybierz priorytet:</label>
+                        <select name="priorytet">
+                            <option value="Niski">Niski</option>
+                            <option value="Normalny">Normalny</option>
+                            <option value="Wysoki">Wysoki</option>
+                        </select>
+                    </div>
+
                     <button type="reset">Wyczyść formularz</button>
                     <button type="submit">Dodaj zgłoszenie</button>
                 </div>

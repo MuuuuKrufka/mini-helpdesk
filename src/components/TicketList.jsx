@@ -1,8 +1,5 @@
 function TicketList({lista, usun, zmienStatus}){
     const listaTicketow = lista.map(ticket => 
-        // <li key={ticket.id}>
-        //     {ticket.tytul} {ticket.opis}
-        // </li>
         <tr key={ticket.id}>
             <td>{ticket.id}</td><td>{ticket.tytul}</td><td>{ticket.opis}</td><td>{ticket.kategoria}</td>
             <td>
@@ -12,12 +9,12 @@ function TicketList({lista, usun, zmienStatus}){
                     <option value="Zakończony">Zakończony</option>
                 </select>
             </td>
+            <td>{ticket.priorytet}</td>
             <td><button onClick={() => usun(ticket.id)}>Usuń</button></td>
         </tr>
     );
 
     return(
-        // <ul style={{listStyle: "none"}}>{listaTicketow}</ul>
         <div className="table-wrapper">
             {lista.length === 0 ? (
                 <p className="brak-zgloszen">Brak zgłoszeń spełniających warunki!</p>
@@ -25,7 +22,7 @@ function TicketList({lista, usun, zmienStatus}){
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th><th>Tytuł</th><th>Opis</th><th>Kategoria</th><th>Status</th><th></th>
+                            <th>ID</th><th>Tytuł</th><th>Opis</th><th>Kategoria</th><th>Status</th><th>Priorytet</th><th></th>
                         </tr>
                     </thead>
                     <tbody>

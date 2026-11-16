@@ -62,3 +62,56 @@ Nauczyłem się:
 AI: 
 - Powtórzenie CSS.
 - Przykłady z @media CSS.
+
+# Dzień 6
+
+- Dodałem przycisk zmieniajcy formularz dodawania zgloszeń na formlarz edytowania zgłoszeń.
+- Edytować można wszystkie wartości poza statusem ponieważ status się edytuje ustawiając go w tabeli.
+- Wszystko zmienia się po id więc zgłoszenia z takimi samymi tytułami edytuje się oddzielnie.
+
+Nauczyłem się:
+- Jak obsłużyć zmiane "trybu" przez useState.
+
+AI:
+- Pomoc z css dla formlarza
+
+# Dzień 7
+
+- Zmieniłem to jak aplikacja przypisuje tablice oraz jak sprawdza dane.
+- Dodałem możliwość zapisywania oraz resetu danych.
+- Dodałem sprawdzanie czy plik z danymi nie jest uszkodzony i mozliwosc resetu gdy tak się stanie.
+
+Nauczylem się:
+- localstorage. Jak z niego korzystać.
+- Try, Catch i Error.
+
+AI:
+- Pokazanie mi możliwych rozwiązań sprawdzania uszkodzenia pliku.
+- Przykłady i wytłumaczenie try catch.
+
+# Dzień 8
+
+- Dodałem licznik pokazujacy wszystkie zgłoszenia oraz licznik dla każdego typu statusu.
+- Dodałem priorytety.
+
+Nauczyłem się:
+- Jak rozbudowywać aplikacje i jej elementy.
+
+AI:
+- lekka pomoc z css dla liczników.
+- Znalezienie błędu w kodzie.
+
+# Dzień 9 
+
+- Wykonałem testy od T1 do T11.
+- Poprosiłem tate o dodanie zgłoszenia i obslużenie apliakcji bez mojej pomocy.
+- Obsługa klawiaturą działa. Bez problemu dodalem i usunąłem zgłoszenie.
+
+Nauczyłem się:
+- testowania oraz sprawdzania aplikacji.
+
+# Dzień 10
+
+- Poprawiłem literówkę. Usunąłem zbędny kod.
+- Poprawiłem widok aplikacji na telefonie.
+
