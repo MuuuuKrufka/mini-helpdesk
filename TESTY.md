@@ -8,6 +8,9 @@
 - T6: Sprawdzone i działa.
 - T7: Sprawdzone i działa.
 - T8: Sprawdzone i działa.
+- T9: Sprawdzone i działa.
+- T10: Sprawdzone i dziła.
+- T11: Sprawdzone i dziła.
 
 # Błędy
 
@@ -15,4 +18,6 @@
 - Wcześniejszy układ zupełnie nie działał na telefonach. Zmienione.
 - Pomieszałem w kilku miejsach z nazwami danych. Zmienione na poprawne.
 - Zapomniałem o thead i tbody w tabeli. Dodane.
-- Literówki
+- Literówki.
+- Brak sprawdzania czy zgłoszenia są dobrze zapisane i czy nie są uszkodzone.
+- Błędy ortograficzne.

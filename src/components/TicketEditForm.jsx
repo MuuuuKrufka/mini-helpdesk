@@ -29,8 +29,8 @@ function TicketEditForm({edytujZgloszenie, edytowaneZgloszenie}){
                     </div>
 
                     <div className="form-field">
-                        <label>Wybierz piorytet:</label>
-                        <select name="piorytet" defaultValue={edytowaneZgloszenie.piorytet}>
+                        <label>Wybierz priorytet:</label>
+                        <select name="priorytet" defaultValue={edytowaneZgloszenie.priorytet}>
                             <option value="Niski">Niski</option>
                             <option value="Normalny">Normalny</option>
                             <option value="Wysoki">Wysoki</option>

@@ -8,11 +8,11 @@ import TicketEditForm from './components/TicketEditForm';
 
 function App() {
   const przykladoweZgloszenia = [
-    {"id": 1, "tytul": "Problem z komputerem.", "opis": "Laptop się nie ładuje.", "kategoria": "Komputer", "status": "Nowe", "piorytet": "Niski"},
-    {"id": 2, "tytul": "Drukarka nie działa!", "opis": "Drukarka nie chce drukować!", "kategoria": "Drukarka", "status": "Nowe", "piorytet": "Normalny"},
-    {"id": 3, "tytul": "Brak kabli.", "opis": "Zabrakło kabli.", "kategoria": "Inne", "status": "Nowe", "piorytet": "Wysoki"},
-    {"id": 4, "tytul": "Uszkodzona myszka.", "opis": "Myszka podwójnie klika.", "kategoria": "Komputer", "status": "Nowe", "piorytet": "Niski"},
-    {"id": 5, "tytul": "Drukarka nie ma papieru", "opis": "Skończył się papier.", "kategoria": "Drukarka", "status": "Nowe", "piorytet": "Niski"}
+    {"id": 1, "tytul": "Problem z komputerem.", "opis": "Laptop się nie ładuje.", "kategoria": "Komputer", "status": "Nowe", "priorytet": "Niski"},
+    {"id": 2, "tytul": "Drukarka nie działa!", "opis": "Drukarka nie chce drukować!", "kategoria": "Drukarka", "status": "Nowe", "priorytet": "Normalny"},
+    {"id": 3, "tytul": "Brak kabli.", "opis": "Zabrakło kabli.", "kategoria": "Inne", "status": "Nowe", "priorytet": "Wysoki"},
+    {"id": 4, "tytul": "Uszkodzona myszka.", "opis": "Myszka podwójnie klika.", "kategoria": "Komputer", "status": "Nowe", "priorytet": "Niski"},
+    {"id": 5, "tytul": "Drukarka nie ma papieru", "opis": "Skończył się papier.", "kategoria": "Drukarka", "status": "Nowe", "priorytet": "Niski"}
   ];
 
   const [blad, setBlad] = useState(false);
@@ -62,7 +62,7 @@ function App() {
 
   const [szukajOpisTytul, setSzukajOpisTytul] = useState("");
   const [szukajStatus, setSzukajStatus] = useState("wszystkie");
-  const [szukajPiorytet, setSzukajPiorytet] = useState("wszystkie");
+  const [szukajPriorytet, setSzukajPriorytet] = useState("wszystkie");
   const [edytowanie, setEdytowanie] = useState(false);
   const [edytowanieId, setEdytowanieId] = useState("");
 
@@ -83,14 +83,14 @@ function App() {
     const tytul = formData.get("tytul");
     const opis = formData.get("opis");
     const kategoria = formData.get("kategoria");
-    const piorytet = formData.get("piorytet");
+    const priorytet = formData.get("priorytet");
     let id = 1;
     if(zgloszenia.length > 0){
       id = zgloszenia.at(-1).id + 1;
     }
     
     if(tytul.trim().length > 2 && tytul.trim().length < 81 && opis.length < 501){
-      const noweZgloszenie = {"id": id, "tytul": tytul, "opis": opis, "kategoria": kategoria, "status": "Nowe", "piorytet": piorytet}
+      const noweZgloszenie = {"id": id, "tytul": tytul, "opis": opis, "kategoria": kategoria, "status": "Nowe", "priorytet": priorytet}
       setZgloszenia([...zgloszenia, noweZgloszenie]);
     }else{
       alert("Tytuł powinienn mieć od 3 do 80 znaków! A opis do maksymalnie 500!!");
@@ -106,14 +106,14 @@ function App() {
     const tytul = formData.get("tytul");
     const opis = formData.get("opis");
     const kategoria = formData.get("kategoria");
-    const piorytet = formData.get("piorytet");
+    const priorytet = formData.get("priorytet");
 
     if(tytul.trim().length > 2 && tytul.trim().length < 81 && opis.length < 501){
       if(confirm("Czy na pewno chcesz edytować zgłoszenie?")){
         setZgloszenia((zgloszenia) =>
         zgloszenia.map((item) => 
         item.id === Number(edytowanieId) ? {
-          ...item, tytul: tytul, opis: opis, kategoria: kategoria, piorytet: piorytet
+          ...item, tytul: tytul, opis: opis, kategoria: kategoria, priorytet: priorytet
         } : item))
       }
     } else {
@@ -132,9 +132,9 @@ function App() {
 
     const pasujeTytulCzyOpis = item.tytul.toLowerCase().includes(tekst) || item.opis.toLowerCase().includes(tekst);
     const pasujeStatus = szukajStatus === "wszystkie" || item.status === szukajStatus;
-    const pasujePiorytet = szukajPiorytet === "wszystkie" || item.piorytet === szukajPiorytet;
+    const pasujePriorytet = szukajPriorytet === "wszystkie" || item.priorytet === szukajPriorytet;
 
-    return pasujeTytulCzyOpis && pasujeStatus && pasujePiorytet;
+    return pasujeTytulCzyOpis && pasujeStatus && pasujePriorytet;
   });
 
   return (
@@ -192,7 +192,7 @@ function App() {
           
 
           <TicketFilter szukajOpisTytul={szukajOpisTytul} setSzukajOpisTytul={setSzukajOpisTytul} szukajStatus={szukajStatus} setSzukajStatus={setSzukajStatus}
-          szukajPiorytet={szukajPiorytet} setSzukajPiorytet={setSzukajPiorytet}></TicketFilter>
+          szukajPriorytet={szukajPriorytet} setSzukajPriorytet={setSzukajPriorytet}></TicketFilter>
 
           <TicketList lista={filtrujTablica} usun={usun} zmienStatus={zmienStatus}/>
       </>

@@ -162,24 +162,24 @@ td button:hover {
 @media (max-width: 600px) {
 
     body {
-        padding: 12px;
+        padding: 8px;
     }
 
     h1 {
-        font-size: 30px;
-        margin: 15px 0 25px;
+        font-size: 27px;
+        margin: 8px 0 15px;
     }
 
     .section-title {
-        font-size: 19px;
-        margin-left: 5px;
+        font-size: 18px;
+        margin: 5px 0;
     }
 
     .form-row {
         flex-direction: column;
         align-items: stretch;
-        gap: 15px;
-        margin: 15px 5px;
+        gap: 1px;
+        margin: 8px 3px;
     }
 
     .form-field {
@@ -189,20 +189,51 @@ td button:hover {
 
     .form-row button {
         width: 100%;
-        min-height: 42px;
+        min-height: 38px;
     }
 
     .filter-row {
-        margin-bottom: 25px;
+        margin-bottom: 12px;
     }
 
-    th, td {
-        padding: 9px 6px;
+    .menu {
+        gap: 8px;
+        margin: 10px auto;
+    }
+
+    .menu button {
+        padding: 8px 12px;
+    }
+
+    .edycja-select {
+        margin: 10px auto;
+        padding: 8px;
+    }
+
+    .liczniki {
+        gap: 12px;
+    }
+
+    .licznik h4 {
+        margin-bottom: 2px;
         font-size: 13px;
     }
 
+    .licznik p {
+        margin: 3px 0;
+    }
+
+    .table-wrapper {
+        margin-top: 12px;
+    }
+
+    th, td {
+        padding: 7px 5px;
+        font-size: 12px;
+    }
+
     td button {
-        padding: 6px;
+        padding: 5px;
     }
 }
 
